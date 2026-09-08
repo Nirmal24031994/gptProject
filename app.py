@@ -9,20 +9,18 @@ from docx import Document
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
-from constants import openai_key
 
 
-
-
-load_dotenv()
-
-# OpeAI API Key
-# os.environ["OPENAI_API_KEY"] = openai_key
-openai_api_key = st.secrets["OPENAI_API_KEY"]
-
-if not os.getenv("OPENAI_API_KEY"):
-    st.error("OPENAI_API_KEY is not configured.")
+# OpenAI API Key from Streamlit Secrets
+try:
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
+except KeyError:
+    st.error("OPENAI_API_KEY is not configured in Streamlit Secrets.")
     st.stop()
+
+
+
+
 
 
 
