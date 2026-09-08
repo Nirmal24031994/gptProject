@@ -1,8 +1,8 @@
 
-import os
+
 import streamlit as st
 
-from dotenv import load_dotenv
+
 from PyPDF2 import PdfReader
 from docx import Document
 
@@ -32,16 +32,12 @@ st.set_page_config(
 )
 
 
-# ============================================================
-# OPENAI MODEL
-# ============================================================
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0.4,
     api_key=openai_api_key
 )
-
 
 # ============================================================
 # SESSION STATE
