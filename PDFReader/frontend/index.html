@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PDF AI Assistant</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>📄 PDF AI Assistant</h1>
+
+            <p>
+                Upload a PDF and ask questions about it
+            </p>
+
+        </div>
+
+
+        <!-- Upload Section -->
+
+        <div class="card">
+
+            <h2>Upload PDF</h2>
+
+            <div class="upload-area">
+
+                <input
+                    type="file"
+                    id="pdfFile"
+                    accept=".pdf"
+                >
+
+                <button
+                    onclick="uploadPDF()"
+                    id="uploadButton">
+
+                    Upload PDF
+
+                </button>
+
+            </div>
+
+            <div
+                id="uploadStatus"
+                class="status">
+            </div>
+
+        </div>
+
+
+        <!-- Question Section -->
+
+        <div class="card">
+
+            <h2>Ask a Question</h2>
+
+            <textarea
+                id="question"
+                placeholder="Ask something about your PDF..."
+                rows="4">
+            </textarea>
+
+            <button
+                onclick="askQuestion()"
+                id="askButton">
+
+                Ask Question
+
+            </button>
+
+        </div>
+
+
+        <!-- Answer Section -->
+
+        <div class="card">
+
+            <h2>Answer</h2>
+
+            <div
+                id="answer"
+                class="answer">
+
+                Upload a PDF and ask a question.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
