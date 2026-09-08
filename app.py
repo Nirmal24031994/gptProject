@@ -12,23 +12,20 @@ from langchain_core.prompts import ChatPromptTemplate
 from constants import openai_key
 
 
-# ============================================================
-# LOAD ENVIRONMENT
-# ============================================================
+
 
 load_dotenv()
 
 # OpeAI API Key
-os.environ["OPENAI_API_KEY"] = openai_key
+# os.environ["OPENAI_API_KEY"] = openai_key
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 if not os.getenv("OPENAI_API_KEY"):
     st.error("OPENAI_API_KEY is not configured.")
     st.stop()
 
 
-# ============================================================
-# PAGE CONFIG
-# ============================================================
+
 
 st.set_page_config(
     page_title="AI Resume Agent",
@@ -43,7 +40,8 @@ st.set_page_config(
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
-    temperature=0.4
+    temperature=0.4,
+    api_key=openai_api_key
 )
 
 
@@ -621,9 +619,7 @@ def classify_request(question):
     return category
 
 
-# ============================================================
-# MAIN UI
-# ============================================================
+
 
 st.title(" AI Resume & General Chatbot")
 
@@ -634,9 +630,6 @@ st.write(
 )
 
 
-# ============================================================
-# SIDEBAR
-# ============================================================
 
 with st.sidebar:
 
@@ -699,9 +692,6 @@ with st.sidebar:
             st.rerun()
 
 
-# ============================================================
-# RESUME PREVIEW
-# ============================================================
 
 if st.session_state.resume_text:
 
@@ -712,9 +702,6 @@ if st.session_state.resume_text:
         )
 
 
-# ============================================================
-# CHAT HISTORY DISPLAY
-# ============================================================
 
 for message in st.session_state.chat_history:
 
@@ -736,25 +723,16 @@ for message in st.session_state.chat_history:
             )
 
 
-# ============================================================
-# SINGLE CHAT INPUT
-# ============================================================
 
 question = st.chat_input(
     "Ask anything or ask about your resume..."
 )
 
 
-# ============================================================
-# PROCESS QUESTION
-# ============================================================
 
 if question:
 
-    # --------------------------------------------------------
-    # Show user question
-    # --------------------------------------------------------
-
+    
     st.session_state.chat_history.append({
 
         "role": "user",
@@ -767,10 +745,7 @@ if question:
         st.markdown(question)
 
 
-    # --------------------------------------------------------
-    # AI RESPONSE
-    # --------------------------------------------------------
-
+  
     with st.chat_message("assistant"):
 
         with st.spinner("🤖 Thinking..."):
@@ -778,9 +753,7 @@ if question:
             resume = st.session_state.resume_text
 
 
-            # =================================================
-            # NO RESUME
-            # =================================================
+             
 
             if not resume:
 
@@ -798,10 +771,7 @@ if question:
                 })
 
 
-            # =================================================
-            # RESUME AVAILABLE
-            # =================================================
-
+           
             else:
 
                 category = classify_request(
@@ -809,10 +779,7 @@ if question:
                 )
 
 
-                # =============================================
-                # GENERAL
-                # =============================================
-
+                
                 if category == "GENERAL":
 
                     answer = general_chat(
@@ -829,10 +796,7 @@ if question:
                     })
 
 
-                # =============================================
-                # RESUME QUESTION
-                # =============================================
-
+               
                 elif category == "RESUME_QUESTION":
 
                     answer = ask_resume_question(
@@ -850,10 +814,7 @@ if question:
                     })
 
 
-                # =============================================
-                # ANALYZE RESUME
-                # =============================================
-
+              
                 elif category == "ANALYZE_RESUME":
 
                     result = analyze_resume(
@@ -870,10 +831,7 @@ if question:
                     })
 
 
-                # =============================================
-                # REFINE RESUME
-                # =============================================
-
+               
                 elif category == "REFINE_RESUME":
 
                     result = refine_resume(
@@ -898,10 +856,7 @@ if question:
                     })
 
 
-                # =============================================
-                # ATS OPTIMIZATION
-                # =============================================
-
+               
                 elif category == "ATS_OPTIMIZATION":
 
                     st.info(
@@ -936,10 +891,7 @@ if question:
                     })
 
 
-                # =============================================
-                # JOB ROLES
-                # =============================================
-
+               
                 elif category == "JOB_ROLES":
 
                     result = suggest_jobs(
@@ -956,10 +908,7 @@ if question:
                     })
 
 
-                # =============================================
-                # INTERVIEW QUESTIONS
-                # =============================================
-
+               
                 elif category == "INTERVIEW_QUESTIONS":
 
                     result = generate_interview_questions(
@@ -976,10 +925,7 @@ if question:
                     })
 
 
-                # =============================================
-                # FALLBACK
-                # =============================================
-
+               
                 else:
 
                     answer = general_chat(
@@ -996,9 +942,6 @@ if question:
                     })
 
 
-# ============================================================
-# HELPER TEXT
-# ============================================================
 
 if not st.session_state.chat_history:
 
@@ -1006,24 +949,4 @@ if not st.session_state.chat_history:
 
     col1, col2, col3 = st.columns(3)
 
-    # with col1:
-
-    #     st.info(
-    #         "**General AI**\n\n"
-    #         "What is machine learning?"
-    #     )
-
-    # with col2:
-
-    #     st.info(
-    #         "**Resume AI**\n\n"
-    #         "What are my strongest skills?"
-    #     )
-
-    # with col3:
-
-    #     st.info(
-    #         "**ATS Optimization**\n\n"
-    #         "Optimize my resume for a .NET Developer job."
-    #     )
-
+   
